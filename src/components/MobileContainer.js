@@ -7,7 +7,7 @@ const style = {
     backgroundColor: "#cccccc"
   },
   flexItem: {
-    width: "576px",
+    width: "514px",
     minHeight: "760px",
     backgroundColor: "white"
   }

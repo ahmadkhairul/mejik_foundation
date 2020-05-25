@@ -32,9 +32,8 @@ const style = {
   }
 };
 
-const Amount = ({ user, name, beneficiary, amount, timeline, category }) => {
-  const { id } = user.user;
-  const value = { id, name, beneficiary, amount, timeline, category };
+const Amount = ({ name, beneficiary, amount, timeline, category }) => {
+  const value = { name, beneficiary, amount, timeline, category };
 
   return (
     <>

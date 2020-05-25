@@ -1,5 +1,7 @@
 import React from "react";
 import Category from "../components/Category";
+import Header from "../templates/Header";
+import Footer from "../templates/Footer";
 
 const style = {
   rootContainer: {
@@ -20,16 +22,20 @@ const style = {
   }
 };
 
-const Donate = ({ user }) => {
+const Donate = () => {
   // console.log(user);
 
   return (
-    <div style={style.rootContainer}>
-      <div style={style.Container}>
-        <h1 style={style.H1}>Donation Target</h1>
-        <Category user={user} />
+    <>
+      <Header headerOf="Donate" />
+      <div style={style.rootContainer}>
+        <div style={style.Container}>
+          <h1 style={style.H1}>Donation Target</h1>
+          <Category />
+        </div>
       </div>
-    </div>
+      <Footer donate />
+    </>
   );
 };
 

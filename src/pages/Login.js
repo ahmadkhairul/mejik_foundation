@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import { gql } from "apollo-boost";
 import { useMutation } from "@apollo/react-hooks";
+import { useApolloClient } from "@apollo/react-hooks";
 
 const style = {
   Container: {
@@ -70,6 +71,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [result, setResult] = useState([]);
   const [login] = useMutation(LOGIN);
+  const client = useApolloClient();
 
   const loginUser = async () => {
     try {
@@ -98,6 +100,7 @@ const Login = () => {
           let data = await loginUser();
           if (data.data) {
             localStorage.setItem("token", data.data.login.token);
+            client.writeData({ data: { isLogin: true } });
             setResult(`Welcome ${data.data.login.user.firstName}`);
           } else {
             setResult("Username or Password Wrong");

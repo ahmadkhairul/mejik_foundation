@@ -45,7 +45,7 @@ const style = {
 const amountList = [100000, 300000, 500000, 700000];
 const timelineList = [1, 2, 3, 4, 5];
 
-const Amount = ({ user, beneficiary, category, name }) => {
+const Amount = ({ beneficiary, category, name }) => {
   const [amount, setAmount] = useState("");
   const [timeline, setTimeline] = useState("");
 
@@ -99,7 +99,6 @@ const Amount = ({ user, beneficiary, category, name }) => {
         </div>
       </div>
       <SubmitAmount
-        user={user}
         name={name}
         beneficiary={beneficiary}
         amount={amount}

@@ -11,10 +11,7 @@ const style = {
     display: "flex",
     flexWrap: "nowrap",
     marginBottom: "20px",
-    paddingTop: "20px",
-    height: "50px",
-    width: "100%",
-    overflowX: "scroll"
+    paddingTop: "20px"
   },
   tabItem: {
     flexWrap: "nowrap",
@@ -31,12 +28,12 @@ const GET_CATEGORY = gql`
   }
 `;
 
-const Category = ({ user }) => {
+const Category = () => {
   const [category, setCategory] = useState("");
   const { data, loading } = useQuery(GET_CATEGORY);
 
   if (loading) return <h1>Loading</h1>;
-  // console.log(category);
+
   return (
     <>
       <div style={style.tab}>
@@ -70,7 +67,7 @@ const Category = ({ user }) => {
           );
         })}
       </div>
-      <Beneficiary user={user} name={category} />
+      <Beneficiary name={category} />
     </>
   );
 };

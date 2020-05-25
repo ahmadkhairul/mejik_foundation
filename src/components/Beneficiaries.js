@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { gql } from "apollo-boost";
 import { useQuery } from "@apollo/react-hooks";
+import Avatar from "react-avatar";
 
 import Radio from "./RadioButton";
 import { MapBenefy } from "../utils/MapBenefy";
@@ -18,13 +19,13 @@ const style = {
     display: "flex",
     marginRight: "10px"
   },
-  profileAvatar: {
-    display: "block",
-    margin: "0 auto",
-    width: "50px",
-    height: "50px",
-    borderRadius: "50%",
-    border: "1px solid #cccccc"
+  noBeneficiary: {
+    height: "120px",
+    color: "#8593A3",
+    padding: "15px"
+  },
+  avatar: {
+    textAlign: "center"
   },
   profileName: {
     textAlign: "center",
@@ -56,7 +57,7 @@ const GET_BENEFICIARY = gql`
   }
 `;
 
-const Beneficiary = ({ user, name }) => {
+const Beneficiary = ({ name }) => {
   const [beneficiary, setBeneficiary] = useState("");
   const [category, setCategory] = useState("");
   const [nameBeneficiary, setNameBeneficiary] = useState("");
@@ -75,34 +76,39 @@ const Beneficiary = ({ user, name }) => {
 
   const benefy = MapBenefy(data);
 
+  let benefyMap = (
+    <div style={style.noBeneficiary}>
+      Currently no beneficiary in this category
+    </div>
+  );
+
+  if (benefy.length > 0) {
+    benefyMap = benefy.map((item, index) => (
+      <div style={style.flexItem} key={index}>
+        <Radio
+          name="category"
+          value={item.id}
+          checked={beneficiary === item.id}
+          onChange={event => {
+            setBeneficiary(event.target.value);
+            setCategory(item.category);
+            setNameBeneficiary(item.fullName);
+          }}
+        >
+          <div style={style.avatar}>
+            <Avatar name={item.fullName} size="50px" round="50%" />
+          </div>
+          <p style={style.profileName}>{item.fullName}</p>
+          <p style={style.profileCategory}>{item.category}</p>
+        </Radio>
+      </div>
+    ));
+  }
+
   return (
     <>
-      <div style={style.flexContainer}>
-        {benefy.map((item, index) => (
-          <div style={style.flexItem} key={index}>
-            <Radio
-              name="category"
-              value={item.id}
-              checked={beneficiary === item.id}
-              onChange={event => {
-                setBeneficiary(event.target.value);
-                setCategory(item.category);
-                setNameBeneficiary(item.fullName);
-              }}
-            >
-              <img
-                src="/assets/profile.png"
-                style={style.profileAvatar}
-                alt="avatar profile mejik foundation"
-              />
-              <p style={style.profileName}>{item.fullName}</p>
-              <p style={style.profileCategory}>{item.category}</p>
-            </Radio>
-          </div>
-        ))}
-      </div>
+      <div style={style.flexContainer}>{benefyMap}</div>
       <Amount
-        user={user}
         category={category}
         beneficiary={beneficiary}
         name={nameBeneficiary}

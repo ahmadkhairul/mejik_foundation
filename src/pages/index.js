@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 const style = {
   Container: {
@@ -54,7 +54,8 @@ const style = {
   }
 };
 
-const INDEX = () => {
+const INDEX = ({ auth }) => {
+  if (auth) return <Redirect to="article" />;
   return (
     <div style={style.Container}>
       <img src="/assets/Logo.svg" alt="mejik fondation logo" width="200px" />

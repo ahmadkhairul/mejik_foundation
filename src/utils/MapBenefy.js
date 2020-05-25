@@ -1,8 +1,8 @@
-export const MapBenefy = data => {
+export function MapBenefy(data) {
   let users = [];
-  data.categories.map(item => {
+  data.categories.forEach(item => {
     const cat = item.name;
-    item.beneficiaries.map(beneficary => {
+    item.beneficiaries.forEach(beneficary => {
       if (beneficary.firstName !== undefined) {
         users.push({
           id: beneficary.id,
@@ -13,4 +13,4 @@ export const MapBenefy = data => {
     });
   });
   return users;
-};
+}

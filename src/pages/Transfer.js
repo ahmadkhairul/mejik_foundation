@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { gql } from "apollo-boost";
 import { useMutation } from "@apollo/react-hooks";
+import Avatar from "react-avatar";
 
-import MobileContainer from "../components/MobileContainer";
 import Header from "../templates/Header";
 import Footer from "../templates/Footer";
+import InputFile from "../components/InputFile";
 
 const style = {
   rootContainer: {
@@ -53,78 +54,72 @@ const style = {
     marginBottom: "100px"
   },
   beneficiary: {
-    display: "flex",
-    justifyContent: "space-between",
-    marginBottom: "10px"
-  },
-  beneficiary__column__one: {
-    display: "flex",
-    width: "20%"
-  },
-  beneficiary__column__two: {
-    display: "flex",
-    flexDirection: "column",
-    width: "50%"
-  },
-  beneficiary__column__three: {
-    display: "flex",
-    justifyContent: "space-between",
-    width: "30%"
+    marginBottom: "20px",
+    width: "100%"
   },
   beneficiary__avatar: {
-    display: "block",
-    margin: "0 auto",
-    width: "50px",
-    height: "50px",
-    borderRadius: "50%",
-    border: "1px solid #cccccc",
-    padding: "0px"
+    width: "70px"
   },
   beneficiary__name: {
-    textAlign: "center",
-    textDecoration: "none",
+    width: "30%",
     fontWeight: "bold",
-    fontSize: "12px",
-    lineHeight: "16px",
-    color: "#2C3A47",
-    margin: "0px",
-    padding: "0px"
-  },
-  beneficiary__category: {
-    textAlign: "center",
-    textDecoration: "none",
-    fontSize: "10px",
-    lineHeight: "14px",
-    color: "#8593A3",
-    margin: "0px",
-    padding: "0px"
-  },
-  beneficiary__amount: {
-    textAlign: "center",
-    textDecoration: "none",
-    fontSize: "10px",
-    lineHeight: "14px",
-    color: "#8593A3",
-    margin: "0px",
-    padding: "0px"
+    fontSize: "14px",
+    lineHeight: "24px",
+    color: "#2C3A47"
   },
   beneficiary__timeline: {
-    textAlign: "center",
-    textDecoration: "none",
-    fontSize: "10px",
+    width: "30%",
+    textAlign: "right",
+    fontSize: "12px",
     lineHeight: "14px",
-    color: "#8593A3",
-    margin: "0px",
-    padding: "0px"
+    color: "#8593A3"
   },
-  beneficiary__total: {
-    textAlign: "center",
-    textDecoration: "none",
-    fontSize: "10px",
+  beneficiary__amount: {
+    width: "30%",
+    textAlign: "right",
+    fontWeight: "bold",
+    fontSize: "18px",
+    lineHeight: "24px",
+    color: "#CD4559"
+  },
+  beneficiary__category: {
+    fontSize: "12px",
     lineHeight: "14px",
-    color: "#8593A3",
-    margin: "0px",
-    padding: "0px"
+    color: "#8593A3"
+  },
+  total: {
+    marginBottom: "20px",
+    width: "100%"
+  },
+  total__name: {
+    textDecoration: "none",
+    fontWeight: "500",
+    fontSize: "14px",
+    lineHeight: "18px",
+    color: "#2C3A47"
+  },
+  total__amount: {
+    width: "50%",
+    textAlign: "right",
+    fontWeight: "bold",
+    fontSize: "18px",
+    lineHeight: "24px",
+    color: "#CD4559"
+  },
+  proof: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column"
+  },
+  proof__icon: {
+    padding: "20px 0px"
+  },
+  proof__button: {
+    padding: "8px",
+    background: "#CD4559",
+    borderRadius: "4px",
+    color: "#ffffff"
   }
 };
 
@@ -181,7 +176,7 @@ const Transfer = ({ location }) => {
   };
 
   return (
-    <MobileContainer>
+    <>
       <Header headerOf="Proof Of Transfer" />
       <div style={style.rootContainer}>
         <div style={style.Container}>
@@ -197,31 +192,33 @@ const Transfer = ({ location }) => {
           <p></p>
         </div>
       </div>
-      <img src="/assets/Line.svg" alt="break line" />
+      <hr />
       <div style={style.rootContainer}>
         <div style={style.Container}>
           <h1 style={style.H1}>Bill Summary</h1>
-          <section style={style.beneficiary}>
-            <div style={style.beneficiary__column__one}>
-              <img
-                src="/assets/profile.png"
-                style={style.beneficiary__avatar}
-                alt="avatar profile mejik foundation"
-              />
-            </div>
-            <div style={style.beneficiary__column__two}>
-              <p style={style.beneficiary__name}>{name}</p>
-              <p style={style.beneficiary__category}>{category}</p>
-            </div>
-            <div style={style.beneficiary__column__three}>
-              <p style={style.beneficiary__timeline}>{timeline}x</p>
-              <p style={style.beneficiary__amount}>{amount}</p>
-            </div>
-          </section>
-          <section style={style.beneficiary}>
-            <p style={style.beneficiary__amount}>Total</p>
-            <p style={style.beneficiary__amount}>{timeline * amount}</p>
-          </section>
+          <table style={style.beneficiary}>
+            <tbody>
+              <tr>
+                <td rowSpan="2" style={style.beneficiary__avatar}>
+                  <Avatar name={name} size="50px" round="50%" />
+                </td>
+                <td style={style.beneficiary__name}>{name}</td>
+                <td style={style.beneficiary__timeline}>{timeline}x</td>
+                <td style={style.beneficiary__amount}>Rp. {amount}</td>
+              </tr>
+              <tr>
+                <td style={style.beneficiary__category}>{category}</td>
+              </tr>
+            </tbody>
+          </table>
+          <table style={style.total}>
+            <tbody>
+              <tr>
+                <td style={style.total__name}>Total</td>
+                <td style={style.total__amount}>Rp. {timeline * amount}</td>
+              </tr>
+            </tbody>
+          </table>
           <form
             onSubmit={async event => {
               event.preventDefault();
@@ -233,16 +230,26 @@ const Transfer = ({ location }) => {
               }
             }}
           >
-            <input type="file" />
+            <InputFile name="proof">
+              <div style={style.proof}>
+                <img
+                  style={style.proof__icon}
+                  src="../assets/Upload.svg"
+                  alt="upload transfer icon mejik academy"
+                />
+                <div style={style.proof__button}>Upload Photo</div>
+                <p style={style.proof__text}>or a drop file here</p>
+              </div>
+            </InputFile>
             <p>{result}</p>
             <button style={style.formSubmit} type="submit">
-              Confirmation
+              CONFIRMATION
             </button>
           </form>
         </div>
       </div>
       <Footer donate />
-    </MobileContainer>
+    </>
   );
 };
 
