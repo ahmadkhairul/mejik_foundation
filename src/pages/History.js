@@ -4,6 +4,7 @@ import { useQuery } from "@apollo/react-hooks";
 
 import Avatar from "react-avatar";
 
+import Splash from "../pages/Splash";
 import Header from "../templates/Header";
 import Footer from "../templates/Footer";
 
@@ -16,16 +17,8 @@ const style = {
     flexDirection: "column"
   },
   beneficiary: {
-    marginBottom: "20px",
+    marginBottom: "100px",
     width: "100%"
-  },
-  beneficiary__title: {
-    fontWeight: "bold",
-    fontSize: "18px",
-    lineHeight: "24px",
-    color: "#2C3A47",
-    padding: "0px",
-    marginBottom: "20px"
   },
   beneficiary__avatar: {
     width: "70px"
@@ -71,7 +64,7 @@ const BENEFICIARY_HISTORY = gql`
 const History = () => {
   const { data, loading } = useQuery(BENEFICIARY_HISTORY);
 
-  if (loading) return "Loading...";
+  if (loading) return <Splash />;
 
   const { transactions } = data;
   console.log(transactions);
@@ -113,7 +106,7 @@ const History = () => {
           </table>
         </div>
       </div>
-      <Footer donate />
+      <Footer setting />
     </>
   );
 };

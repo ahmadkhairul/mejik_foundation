@@ -166,7 +166,6 @@ const AUTH_USER = gql`
 `;
 
 const Transfer = ({ location }) => {
-  const [user, setUser] = useState([]);
   const [result, setResult] = useState("");
 
   const [transaction] = useMutation(CREATE_TRANSACTION);
