@@ -5,40 +5,38 @@ import SettingIcon from "../assets/Setting";
 import { Link } from "react-router-dom";
 
 const style = {
-  container: {
+  root: {
+    boxSizing: "border-box",
     position: "fixed",
     display: "flex",
-    alignItems: "flex-end",
-    justifyContent: "space-between",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
     bottom: "0",
-    width: "95%",
-    height: "50px",
-    padding: "0 57px 10px",
+    height: "65px",
+    padding: "0 57px 40px",
     backgroundColor: "white",
     boxShadow: "0px 0px 4px rgba(5, 5, 5, 0.08)"
   },
+  container: {
+    display: "flex",
+    alignItems: "flex-end",
+    justifyContent: "space-between"
+  },
   flexItem: {
-    padding: "0 10%",
+    padding: "0 30px",
     display: "flex",
     flexDirection: "column",
     fontWeight: "500",
     fontSize: "10px",
     color: "#8593A3",
     textAlign: "center"
-  },
-  circle: {
-    width: "50px",
-    height: "50px",
-
-    border: "3px solid black",
-    borderRadius: "50%",
-    boxShadow: "0px 0px 4px rgba(5, 5, 5, 0.08)"
   }
 };
 
 const Footer = ({ donate, setting, article }) => {
   return (
-    <footer>
+    <footer style={style.root}>
       <div style={style.container}>
         <div style={style.flexItem}>
           <Link to="/article">

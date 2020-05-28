@@ -1,29 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { gql } from "apollo-boost";
 import { useMutation } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/react-hooks";
+
 import Avatar from "react-avatar";
 
 import Header from "../templates/Header";
 import Footer from "../templates/Footer";
 import InputFile from "../components/InputFile";
+import NoAuth from "../components/NoAuth";
 
 const style = {
-  rootContainer: {
+  root__container: {
     padding: "0 5%"
   },
-  Container: {
+  container: {
     display: "flex",
     flexDirection: "column"
   },
-  H1: {
-    fontWeight: "bold",
-    fontSize: "18px",
-    lineHeight: "24px",
-    color: "#2C3A47",
-    padding: "0px",
-    marginBottom: "20px"
+  account__logo: {
+    margin: "50px 0px 25px 0px"
   },
-  H2: {
+  account__items: {
     fontWeight: "bold",
     fontSize: "16px",
     lineHeight: "20px",
@@ -32,7 +30,7 @@ const style = {
     margin: "0px",
     textAlign: "center"
   },
-  H3: {
+  account__label: {
     fontWeight: "500",
     fontSize: "12px",
     lineHeight: "16px",
@@ -41,10 +39,7 @@ const style = {
     margin: "10px 0px",
     textAlign: "center"
   },
-  logo: {
-    margin: "50px 0px 25px 0px"
-  },
-  formSubmit: {
+  submit: {
     width: "100%",
     height: "45px",
     color: "#ffffff",
@@ -56,6 +51,14 @@ const style = {
   beneficiary: {
     marginBottom: "20px",
     width: "100%"
+  },
+  beneficiary__title: {
+    fontWeight: "bold",
+    fontSize: "18px",
+    lineHeight: "24px",
+    color: "#2C3A47",
+    padding: "0px",
+    marginBottom: "20px"
   },
   beneficiary__avatar: {
     width: "70px"
@@ -110,7 +113,8 @@ const style = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    flexDirection: "column"
+    flexDirection: "column",
+    cursor: "pointer"
   },
   proof__icon: {
     padding: "20px 0px"
@@ -148,16 +152,35 @@ const CREATE_TRANSACTION = gql`
   }
 `;
 
-const Transfer = ({ location }) => {
-  const { data } = location.state;
-  const { name, category, amount, beneficiary, timeline } = data;
+const AUTH_USER = gql`
+  query {
+    user {
+      id
+      email
+      firstName
+      lastName
+      phoneNumber
+      role
+    }
+  }
+`;
 
+const Transfer = ({ location }) => {
+  const [user, setUser] = useState([]);
   const [result, setResult] = useState("");
+
   const [transaction] = useMutation(CREATE_TRANSACTION);
+  const { data: userdata, loading } = useQuery(AUTH_USER);
+
+  const { data } = location.state;
 
   useEffect(() => {
     setResult("");
   }, [data]);
+
+  if (loading) return "Loading...";
+
+  const { name, category, amount, beneficiary, timeline } = data;
 
   const payment = async () => {
     try {
@@ -177,25 +200,28 @@ const Transfer = ({ location }) => {
 
   return (
     <>
+      <NoAuth open={userdata !== null ? false : true}>
+        Login or Register to start donate
+      </NoAuth>
       <Header headerOf="Proof Of Transfer" />
-      <div style={style.rootContainer}>
-        <div style={style.Container}>
+      <div style={style.root__container}>
+        <div style={style.container}>
           <img
-            style={style.logo}
+            style={style.account__logo}
             src="../assets/LogoBCA.svg"
             alt="BCA logo in mejik"
           />
-          <h3 style={style.H3}>Virtual Account</h3>
-          <h2 style={style.H2}>0001-2846-1819-2910</h2>
-          <h3 style={style.H3}>Name Holder</h3>
-          <h2 style={style.H2}>Diaspora Peduli</h2>
+          <h3 style={style.account__label}>Virtual Account</h3>
+          <h2 style={style.account__items}>0001-2846-1819-2910</h2>
+          <h3 style={style.account__label}>Name Holder</h3>
+          <h2 style={style.account__items}>Diaspora Peduli</h2>
           <p></p>
         </div>
       </div>
       <hr />
-      <div style={style.rootContainer}>
-        <div style={style.Container}>
-          <h1 style={style.H1}>Bill Summary</h1>
+      <div style={style.root__container}>
+        <div style={style.container}>
+          <h1 style={style.beneficiary__title}>Bill Summary</h1>
           <table style={style.beneficiary}>
             <tbody>
               <tr>
@@ -242,7 +268,7 @@ const Transfer = ({ location }) => {
               </div>
             </InputFile>
             <p>{result}</p>
-            <button style={style.formSubmit} type="submit">
+            <button style={style.submit} type="submit">
               CONFIRMATION
             </button>
           </form>
