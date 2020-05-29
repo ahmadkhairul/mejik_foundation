@@ -7,6 +7,7 @@ import Register from "./pages/Register";
 import Donate from "./pages/Donate";
 import Setting from "./pages/Setting";
 import Article from "./pages/Article";
+import ArticleDetail from "./pages/ArticleDetail";
 import Transfer from "./pages/Transfer";
 import Logout from "./pages/Logout";
 import History from "./pages/History";
@@ -24,6 +25,7 @@ const App = () => {
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
       <Route path="/logout" component={Logout} />
+      <Route path="/detail/:id" component={ArticleDetail} />
       <Route path="/" component={Index} />
     </Switch>
   );

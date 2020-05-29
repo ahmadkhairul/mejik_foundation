@@ -2,6 +2,7 @@ import React from "react";
 import { gql } from "apollo-boost";
 import { useQuery } from "@apollo/react-hooks";
 import Avatar from "react-avatar";
+import { Link } from "react-router-dom";
 
 import Splash from "../pages/Splash";
 import Header from "../templates/Header";
@@ -17,31 +18,30 @@ const style = {
     marginBottom: "100px"
   },
   article: {
+    display: "flex",
+    alignItems: "center",
     margin: "20px 0px",
     width: "100%"
   },
-  article__image: {
-    width: "70px"
-  },
   article__title: {
-    width: "70%",
     fontWeight: "bold",
     fontSize: "14px",
-    lineHeight: "24px",
+    lineHeight: "20px",
     color: "#2C3A47"
   },
   article__description: {
-    width: "20%",
-    textAlign: "left",
-    fontWeight: "bold",
-    fontSize: "18px",
-    lineHeight: "24px",
-    color: "#CD4559"
+    fontSize: "12px",
+    lineHeight: "16px",
+    color: "#8593A3"
   },
   article__readmore: {
+    fontWeight: "500",
     fontSize: "12px",
-    lineHeight: "14px",
-    color: "#8593A3"
+    lineHeight: "16px",
+    color: "#CD4559"
+  },
+  article__detail: {
+    margin: "10px"
   }
 };
 
@@ -75,16 +75,24 @@ const Article = () => {
           {articles.map(item => {
             return (
               <section key={item.id} style={style.article}>
-                <div>
-                  {item.imageUrl === null ? (
-                    <Avatar name={AvaName(item.title)} />
-                  ) : (
-                    <img url={item.url} alt={`${item.title}`} />
-                  )}
-                </div>
-                <div>{item.title}</div>
-                <div>{item.description.substring(0, 40)}...</div>
-                <div>Read More ...</div>
+                <Link to={`detail/${item.id}`}>
+                  <div>
+                    {item.imageUrl === null ? (
+                      <Avatar size="70px" name={AvaName(item.title)} />
+                    ) : (
+                      <img width="70px" url={item.url} alt={`${item.title}`} />
+                    )}
+                  </div>
+                </Link>
+                <Link to={`detail/${item.id}`}>
+                  <div style={style.article__detail}>
+                    <div style={style.article__title}>{item.title}</div>
+                    <div style={style.article__description}>
+                      {item.description.substring(0, 40)}...
+                    </div>
+                    <div style={style.article__readmore}>Read More ...</div>
+                  </div>
+                </Link>
               </section>
             );
           })}
