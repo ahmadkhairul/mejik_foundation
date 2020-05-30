@@ -54,7 +54,7 @@ const style = {
   }
 };
 
-const INDEX = ({ auth }) => {
+const Index = ({ auth }) => {
   if (auth) return <Redirect to="article" />;
   return (
     <div style={style.Container}>
@@ -74,4 +74,4 @@ const INDEX = ({ auth }) => {
   );
 };
 
-export default INDEX;
+export default Index;

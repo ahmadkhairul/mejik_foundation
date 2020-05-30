@@ -44,19 +44,6 @@ const style = {
   }
 };
 
-const GET_BENEFICIARY = gql`
-  query categories($name: String!) {
-    categories(where: { name_contains: $name }) {
-      name
-      beneficiaries {
-        id
-        firstName
-        lastName
-      }
-    }
-  }
-`;
-
 const Beneficiary = ({ name }) => {
   const [beneficiary, setBeneficiary] = useState("");
   const [category, setCategory] = useState("");
@@ -65,12 +52,6 @@ const Beneficiary = ({ name }) => {
   useEffect(() => {
     setBeneficiary("");
   }, [name]);
-
-  const { data, loading } = useQuery(GET_BENEFICIARY, {
-    variables: {
-      name: name
-    }
-  });
 
   if (loading) return <h1>Loading</h1>;
 

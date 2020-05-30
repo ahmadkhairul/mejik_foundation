@@ -19,18 +19,8 @@ const style = {
   }
 };
 
-const GET_CATEGORY = gql`
-  query {
-    categories {
-      id
-      name
-    }
-  }
-`;
-
 const Category = () => {
   const [category, setCategory] = useState("");
-  const { data, loading } = useQuery(GET_CATEGORY);
 
   if (loading) return <h1>Loading</h1>;
 

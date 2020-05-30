@@ -1,11 +1,8 @@
 import React from "react";
-import { gql } from "apollo-boost";
 import { useParams } from "react-router-dom";
-import { useQuery } from "@apollo/react-hooks";
-
-import { FormattedDate } from "../components/Date";
-import Splash from "../pages/Splash";
-import Footer from "../templates/Footer";
+import { FormattedDate } from "../../components/Date";
+import Splash from "../Splash";
+import Footer from "../../templates/Footer";
 
 const style = {
   cover: {
@@ -54,29 +51,8 @@ const style = {
   }
 };
 
-const ARTICLE_DETAIL = gql`
-  query article($id: String!) {
-    article(id: $id) {
-      id
-      imageUrl
-      title
-      description
-      createdBy {
-        firstName
-        lastName
-      }
-      createdAt
-    }
-  }
-`;
-
 const DetailArticle = () => {
   const { id } = useParams();
-  const { data, loading } = useQuery(ARTICLE_DETAIL, {
-    variables: {
-      id: id
-    }
-  });
 
   if (loading) return <Splash />;
 

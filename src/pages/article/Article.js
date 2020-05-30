@@ -1,6 +1,4 @@
 import React from "react";
-import { gql } from "apollo-boost";
-import { useQuery } from "@apollo/react-hooks";
 import Avatar from "react-avatar";
 import { Link } from "react-router-dom";
 
@@ -45,20 +43,7 @@ const style = {
   }
 };
 
-const GET_ARTICLE = gql`
-  query {
-    articles(orderBy: createdAt_DESC) {
-      id
-      title
-      imageUrl
-      description
-    }
-  }
-`;
-
 const Article = () => {
-  const { data, loading } = useQuery(GET_ARTICLE);
-
   if (loading) return <Splash />;
 
   const AvaName = title => {
