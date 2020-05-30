@@ -60,12 +60,13 @@ const Article = () => {
   const { data, loading } = useQuery(GET_ARTICLE);
 
   if (loading) return <Splash />;
-  const { articles } = data;
 
   const AvaName = title => {
     const arr = title.split(" ");
     return `${arr[0].charAt(0)} ${arr[1].charAt(0)}`;
   };
+
+  const { articles } = data;
 
   return (
     <>

@@ -9,6 +9,8 @@ import Header from "../templates/Header";
 import Footer from "../templates/Footer";
 import InputFile from "../components/InputFile";
 import NoAuth from "../components/NoAuth";
+import Splash from "../pages/Splash";
+import { Redirect } from "react-router-dom";
 
 const style = {
   root__container: {
@@ -46,7 +48,7 @@ const style = {
     background: "#CD4559",
     borderRadius: "4px",
     textAlign: "center",
-    marginBottom: "100px"
+    margin: "20px 0px 100px 0px"
   },
   beneficiary: {
     marginBottom: "20px",
@@ -166,20 +168,21 @@ const AUTH_USER = gql`
 `;
 
 const Transfer = ({ location }) => {
-  const [result, setResult] = useState("");
-
   const [transaction] = useMutation(CREATE_TRANSACTION);
   const { data: userdata, loading } = useQuery(AUTH_USER);
-
-  const { data } = location.state;
+  const [variable, setVariable] = useState([]);
 
   useEffect(() => {
-    setResult("");
-  }, [data]);
+    if (location.state) {
+      const { data } = location.state;
+      setVariable(data);
+    }
+  }, [location]);
 
-  if (loading) return "Loading...";
+  if (variable.length === []) return <Redirect to="/donate" />;
+  if (loading) return <Splash />;
 
-  const { name, category, amount, beneficiary, timeline } = data;
+  const { name, category, amount, beneficiary, timeline } = variable;
 
   const payment = async () => {
     try {
@@ -199,7 +202,7 @@ const Transfer = ({ location }) => {
 
   return (
     <>
-      <NoAuth open={userdata !== null ? false : true}>
+      <NoAuth open={userdata !== null ? true : false}>
         Login or Register to start donate
       </NoAuth>
       <Header headerOf="Proof Of Transfer" />
@@ -247,12 +250,7 @@ const Transfer = ({ location }) => {
           <form
             onSubmit={async event => {
               event.preventDefault();
-              let data = await payment();
-              if (data.data) {
-                setResult("Thank you for your donation");
-              } else {
-                setResult("Something wrong is happen");
-              }
+              await payment();
             }}
           >
             <InputFile name="proof">
@@ -266,7 +264,6 @@ const Transfer = ({ location }) => {
                 <p style={style.proof__text}>or a drop file here</p>
               </div>
             </InputFile>
-            <p>{result}</p>
             <button style={style.submit} type="submit">
               CONFIRMATION
             </button>
