@@ -25,7 +25,7 @@ const reducer = (state = initialState, action) => {
       };
     case `${AUTH_USER}_REJECTED`:
     case `${LOGIN_USER}_REJECTED`:
-    case `${REGISTER_USER}_FULFILLED`:
+    case `${REGISTER_USER}_REJECTED`:
       return {
         ...state,
         loading: false,

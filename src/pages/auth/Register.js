@@ -1,7 +1,4 @@
 import React, { useState } from "react";
-import { Redirect } from "react-router-dom";
-import { gql } from "apollo-boost";
-import { useMutation } from "@apollo/react-hooks";
 
 const style = {
   Container: {
@@ -51,57 +48,12 @@ const style = {
   }
 };
 
-const REGISTER = gql`
-  mutation register(
-    $email: EmailAddress!
-    $password: String!
-    $firstName: String!
-    $phoneNumber: PhoneNumber!
-  ) {
-    register(
-      input: {
-        email: $email
-        password: $password
-        firstName: $firstName
-        phoneNumber: $phoneNumber
-      }
-    ) {
-      user {
-        id
-        firstName
-        email
-        role
-      }
-      token
-    }
-  }
-`;
-
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [result, setResult] = useState([]);
-  const [register] = useMutation(REGISTER);
-
-  const registerUser = async () => {
-    try {
-      const data = await register({
-        variables: {
-          email: email,
-          password: password,
-          firstName: firstName,
-          phoneNumber: phoneNumber
-        }
-      });
-      return data;
-    } catch (error) {
-      return error;
-    }
-  };
-
-  if (result.includes("Welcome")) return <Redirect to="/article" />;
 
   return (
     <div style={style.Container}>
@@ -111,13 +63,6 @@ const Register = () => {
       <form
         onSubmit={async event => {
           event.preventDefault();
-          let data = await registerUser();
-          if (data.data) {
-            localStorage.setItem("token", data.data.register.token);
-            setResult(`Welcome ${data.data.register.user.firstName}`);
-          } else {
-            setResult("Please fill all form to register");
-          }
         }}
       >
         <label style={style.formLabel}>Full Name</label>

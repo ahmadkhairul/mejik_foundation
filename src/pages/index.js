@@ -1,8 +1,8 @@
 import React from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const style = {
-  Container: {
+  container: {
     height: "100vh",
     display: "flex",
     alignItems: "center",
@@ -10,7 +10,7 @@ const style = {
     flexDirection: "column",
     padding: "0 10%"
   },
-  H1: {
+  container_h1: {
     width: "335px",
     height: "60px",
 
@@ -21,7 +21,7 @@ const style = {
     color: "#2C3A47",
     marginTop: "20px"
   },
-  H2: {
+  container_h2: {
     width: "335px",
     height: "35px",
 
@@ -32,20 +32,22 @@ const style = {
     color: "#2C3A47",
     marginTop: "20px"
   },
-  btnLogin: {
+  container_login: {
     width: "335px",
     height: "45px",
     color: "#ffffff",
+    border: "1px solid #A4B0BE",
 
     background: "#CD4559",
     borderRadius: "4px",
     textAlign: "center",
     marginTop: "20px"
   },
-  btnRegister: {
+  container_register: {
     width: "335px",
     height: "45px",
     color: "#CD4559",
+    border: "1px solid #A4B0BE",
 
     background: "#ffffff",
     borderRadius: "4px",
@@ -54,21 +56,20 @@ const style = {
   }
 };
 
-const Index = ({ auth }) => {
-  if (auth) return <Redirect to="article" />;
+const Index = () => {
   return (
-    <div style={style.Container}>
+    <div style={style.container}>
       <img src="/assets/Logo.svg" alt="mejik fondation logo" width="200px" />
-      <h1 style={style.H1}>Welcome to Mejik Foundation!</h1>
-      <h2 style={style.H2}>
+      <h1 style={style.container_h1}>Welcome to Mejik Foundation!</h1>
+      <h2 style={style.container_h2}>
         Mejik Foundation is a network that facilitates and empowers the voice of
         mejik communities
       </h2>
       <Link to="/login">
-        <button style={style.btnLogin}>Login</button>
+        <button style={style.container_login}>Login</button>
       </Link>
       <Link to="/register">
-        <button style={style.btnRegister}>Register</button>
+        <button style={style.container_register}>Register</button>
       </Link>
     </div>
   );
